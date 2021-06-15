@@ -3,4 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
                                         PermissionsMixin
 
 class UserManager(BaseUserManager):
-    pass        
+    def create_user(self, email, password=None, **extra_fields):
+        """
+            creates and saves a new user
+        """
