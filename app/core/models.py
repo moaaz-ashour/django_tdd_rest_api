@@ -23,4 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
-    
+
+    # By default, USERNAME = USERNAME
+    # Customize to equal 'email'
+    USERNAME_FIELD = 'email'
