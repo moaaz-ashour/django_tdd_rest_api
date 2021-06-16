@@ -32,3 +32,14 @@ class ModelTests(TestCase):
         """
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user(None, 'test123')
+    
+    def test_create_superuser(self):
+        """
+            test creating a new superuser
+        """
+        user = get_user_model().objects.create_superuser(
+            "test@example.com", 
+            "test123"
+        )
+        self.assertTrue(user.is_superuser) # part of PermissionsMixin
+        self.assertTrue(user.is_staff)
