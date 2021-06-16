@@ -26,3 +26,9 @@ class ModelTests(TestCase):
 
         self.assertEqual(user.email, email.lower())
         
+    def test_new_user_invalid_email(self):
+        """
+            test creating user with invalid email raises error
+        """
+        with self.assertRaises(ValueError):
+            get_user_model().objects.create_user(None, 'test123')
