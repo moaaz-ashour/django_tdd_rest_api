@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
         """
             creates and saves a new user
         """
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
