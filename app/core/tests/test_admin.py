@@ -39,7 +39,9 @@ class AdminSiteTests(TestCase):
     def test_user_change_page(self):
         """Test that user edit page works
         """
+        # We have to include fieldssets to UserAdmin for this to work
         url = reverse('admin:core_user_change', args=[self.user.id])
+        # e.g. /admin/core/user/1
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
