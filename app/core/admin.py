@@ -11,7 +11,7 @@ from core import models
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
 
-    # fields to be included in list users page
+    # fields to be included in "list users page"
     list_display = ['email', 'name']
 
     # fields to be included on change user page (edit page)
@@ -33,5 +33,17 @@ class UserAdmin(BaseUserAdmin):
              {'fields': ('last_login',)}
         )
     )
-    
+    # fields to be included in "add user page"
+    # therefore we can create a new user with email and password
+    add_fieldsets = (
+        
+        (
+            None, 
+            {
+                'classes': ('wide',),
+                'fields': ('email', 'password1', 'password2')
+            }
+        ),
+    )
+
 admin.site.register(models.User, UserAdmin)
