@@ -50,7 +50,8 @@ class PublicUserApiTests(TestCase):
         # Note: the users created in previous test cases do not exist
         payload = {
             'email': 'test@test.com',
-            'password': 'testpass'
+            'password': 'testpass',
+            'name': 'test'
         }
         # create this test user
         create_user(**payload)
@@ -67,7 +68,8 @@ class PublicUserApiTests(TestCase):
         # Note, the users created in previous test cases do not exist
         payload = {
             'email': 'test@test.com',
-            'password': 'tp'
+            'password': 'tp',
+            'name': 'test'
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
