@@ -37,9 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'core'
+    'rest_framework'
 ]
+
+MY_APPS = [
+    'core',
+    'user'
+]
+
+INSTALLED_APPS.extend(MY_APPS)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
