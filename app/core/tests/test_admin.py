@@ -10,16 +10,16 @@ class AdminSiteTests(TestCase):
            Create a user"""
         self.client = Client()
         self.admin_user = get_user_model().objects.create_superuser(
-            email = "admin@example.com",
-            password = "admin"
+            email="admin@example.com",
+            password="admin"
         )
         self.client.force_login(self.admin_user)
         self.user = get_user_model().objects.create_user(
-            email = "user@example.com",
-            password = "testuser",
+            email="user@example.com",
+            password="testuser",
             name="test user"
         )
-    
+
     def test_user_listed(self):
         """Test that users are listed in user page
         """
@@ -45,7 +45,7 @@ class AdminSiteTests(TestCase):
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
-    
+
     def test_create_user_page(self):
         """Test that create user page works
         """
@@ -53,4 +53,3 @@ class AdminSiteTests(TestCase):
         res = self.client.get(url)
 
         self.assertEqual(res.status_code, 200)
-        

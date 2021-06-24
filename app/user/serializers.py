@@ -31,7 +31,8 @@ class UserSerializer(serializers.ModelSerializer):
         """Create a new user with encrypted password and return it
         """
         return get_user_model().objects.create_user(**validated_data)
-    
+
+
 class AuthTokenSerializer(serializers.Serializer):
     """
         Serializer for user authentication object:
@@ -42,9 +43,9 @@ class AuthTokenSerializer(serializers.Serializer):
     # create fields to get data for authentication
     email = serializers.CharField()
     password = serializers.CharField(
-                style={'input_type': 'password'},
-                trim_whitespace=False
-                )
+        style={'input_type': 'password'},
+        trim_whitespace=False
+    )
 
     def validate(self, attrs):
         """ override validate method and raise exception if invalid
@@ -57,10 +58,10 @@ class AuthTokenSerializer(serializers.Serializer):
         password = attrs.get('password')
 
         user = authenticate(
-                request=self.context.get('request'),
-                username=email,
-                password=password
-            )
+            request=self.context.get('request'),
+            username=email,
+            password=password
+        )
         # if authentication fails:
         if not user:
             # we use gettext to enable language tranlation for this text

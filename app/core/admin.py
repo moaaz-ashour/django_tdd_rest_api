@@ -8,6 +8,8 @@ from core import models
 
 # This class is used just for the admin interface.
 # Nothing changes except the way admin page looks
+
+
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
 
@@ -17,11 +19,11 @@ class UserAdmin(BaseUserAdmin):
     # fields to be included on change user page (edit page)
     fieldsets = (
         (
-            None, 
+            None,
             {'fields': ('email', 'password')}
         ),
         (
-            _('Personal Info'), 
+            _('Personal Info'),
             {'fields': ('name',)}
         ),
         (
@@ -30,20 +32,16 @@ class UserAdmin(BaseUserAdmin):
         ),
         (
             _('Important dates'),
-             {'fields': ('last_login',)}
+            {'fields': ('last_login',)}
         )
     )
     # fields to be included in "add user page"
     # therefore we can create a new user with email and password
-    add_fieldsets = (
-        
-        (
-            None, 
-            {
-                'classes': ('wide',),
-                'fields': ('email', 'password1', 'password2')
-            }
-        ),
-    )
+    add_fieldsets = ((None,
+                      {'classes': ('wide',), 'fields': (
+                          'email', 'password1', 'password2')}
+                      ),
+                     )
+
 
 admin.site.register(models.User, UserAdmin)

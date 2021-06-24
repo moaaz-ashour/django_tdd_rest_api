@@ -14,8 +14,10 @@ class CommandsTestCase(TestCase):
             by simulating the behaviour of Django when
             db is available
         """
-        # Mock ConnectionHandler with Patch to return True everytime the command is called
-        # The way to test if db is available in Django is by retrieving the default db via the ConnectionHandler
+        # Mock ConnectionHandler with Patch to \
+        # return True everytime the command is called
+        # The way to test if db is available in Django is by \
+        # retrieving the default db via the ConnectionHandler
         # THe fucntion which is called when retrieving the db is __getitem__
         with patch('django.db.utils.ConnectionHandler.__getitem__') as gi:
             # mocking/ overriding behaviour
@@ -29,7 +31,7 @@ class CommandsTestCase(TestCase):
     # to remove that delay, wrap the test in a @patch decorator
     # to not sleep for the test
     @patch('time.sleep', return_value=None)
-    def test_wait_for_db(self, ts): 
+    def test_wait_for_db(self, ts):
         """Test wait_for_db command will try the db 5 times
             on the sixth time will be successful
             ts: from the patch decorator.

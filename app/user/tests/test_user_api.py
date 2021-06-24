@@ -8,6 +8,7 @@ from rest_framework import status
 CREATE_USER_URL = reverse("user:create")
 TOKEN_URL = reverse("user:token")
 
+
 def create_user(**params):
     """
         helper function to create test users
@@ -47,7 +48,6 @@ class PublicUserApiTests(TestCase):
         # assert that the password is not returned in the response data
         self.assertNotIn('password', res.data)
 
-
     def test_user_exists(self):
         """
             Test API when trying to create existing users
@@ -65,7 +65,6 @@ class PublicUserApiTests(TestCase):
         res = self.client.post(CREATE_USER_URL, payload)
         # assert that the response is 400
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-
 
     def test_password_too_short(self):
         """
@@ -107,7 +106,7 @@ class PublicUserApiTests(TestCase):
 
     def create_token_invalid_credentials(self):
         """
-            test that token is not created created 
+            test that token is not created created
             if invalid credentials were given
         """
         create_user(
@@ -127,7 +126,7 @@ class PublicUserApiTests(TestCase):
 
     def create_token_no_user(self):
         """
-            test if token cannot be created 
+            test if token cannot be created
             if user doesn't exist
         """
         payload = {
@@ -143,12 +142,12 @@ class PublicUserApiTests(TestCase):
             test if token is not created when a fied is left blank
         """
         payload = {
-            'email': 'test@test.com', 
+            'email': 'test@test.com',
             'password': 'testpass'
         }
         create_user(**payload)
         payload = {
-            'email': 'test@test.com', 
+            'email': 'test@test.com',
             'password': ''
         }
         res = self.client.post(TOKEN_URL, payload)

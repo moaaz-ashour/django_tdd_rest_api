@@ -4,9 +4,11 @@ from rest_framework.settings import api_settings
 
 from user.serializers import UserSerializer, AuthTokenSerializer
 
+
 class CreateUserView(generics.CreateAPIView):
     """Create a new user"""
     serializer_class = UserSerializer
+
 
 class CreateTokenView(ObtainAuthToken):
     """view for API validating user credentials and providing token
