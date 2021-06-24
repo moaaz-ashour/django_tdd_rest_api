@@ -6,16 +6,18 @@ from rest_framework import status
 
 
 CREATE_USER_URL = reverse("user:create")
-
+TOKEN_URL = reverse("user:token")
 
 def create_user(**params):
-    """helper function to create test users
+    """
+        helper function to create test users
     """
     return get_user_model().objects.create_user(**params)
 
 
 class PublicUserApiTests(TestCase):
-    """Test the users API (public)
+    """
+        Test the users API (public)
        'Public' because we dont check for authentication
     """
 
@@ -23,8 +25,10 @@ class PublicUserApiTests(TestCase):
         self.client = APIClient()
 
     def test_create_valid_user_success(self):
-        """test API call to create user with valid payload
-           payload is a POST dict"""
+        """
+            test API call to create user with valid payload
+            payload is a POST dict
+        """
 
         payload = {
             'email': 'test@test.com',
@@ -45,7 +49,8 @@ class PublicUserApiTests(TestCase):
 
 
     def test_user_exists(self):
-        """ Test API when trying to create existing users
+        """
+            Test API when trying to create existing users
         """
         # Note: the users created in previous test cases do not exist
         payload = {
@@ -63,7 +68,8 @@ class PublicUserApiTests(TestCase):
 
 
     def test_password_too_short(self):
-        """Test if user is not created when password is too short
+        """
+            Test if user is not created when password is too short
         """
         # Note, the users created in previous test cases do not exist
         payload = {
@@ -81,3 +87,70 @@ class PublicUserApiTests(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
+
+    def test_create_token_for_user(self):
+        """
+            test if token can be created successfully \
+            with valid creds for existing user
+        """
+        payload = {
+            'email': 'test@test.com',
+            'password': 'testpass',
+            'name': 'tester'
+        }
+        create_user(**payload)
+        res = self.client.post(TOKEN_URL, payload)
+        # we should get a HTTP 200 response and
+        # it should contain a token in the data response
+        self.assertIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def create_token_invalid_credentials(self):
+        """
+            test that token is not created created 
+            if invalid credentials were given
+        """
+        create_user(
+            email='test@test.com',
+            password='testpass'
+        )
+
+        payload = {
+            'email': 'test@test.com',
+            'password': 'wrongpass'
+        }
+
+        res = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def create_token_no_user(self):
+        """
+            test if token cannot be created 
+            if user doesn't exist
+        """
+        payload = {
+            'email': 'test@test.com',
+            'password': 'testpass'
+        }
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def create_token_missing_field(self):
+        """
+            test if token is not created when a fied is left blank
+        """
+        payload = {
+            'email': 'test@test.com', 
+            'password': 'testpass'
+        }
+        create_user(**payload)
+        payload = {
+            'email': 'test@test.com', 
+            'password': ''
+        }
+        res = self.client.post(TOKEN_URL, payload)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
